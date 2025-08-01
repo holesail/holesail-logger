@@ -6,7 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["logger", "holesail"],
+  "keywords": [
+    "logger",
+    "holesail"
+  ],
   "author": "Raven Scott",
-  "license": "GPL 3.0"
+  "license": "GPL 3.0",
+  "devDependencies": {
+    "standard": "^17.1.2"
+  }
 }
