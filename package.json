@@ -14,5 +14,8 @@
   "license": "GPL 3.0",
   "devDependencies": {
     "standard": "^17.1.2"
+  },
+  "dependencies": {
+    "barely-colours": "^1.0.0"
   }
 }
