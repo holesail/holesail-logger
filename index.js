@@ -19,40 +19,37 @@ class HolesailLogger {
     }
   }
 
-  debug (msg) {
-    if (this.enabled && this.LOG_LEVELS.DEBUG >= this.minLevel) {
-      const timestamp = `${this.colors.gray}${new Date().toISOString()}${this.colors.reset}`
-      const prefix = `${this.colors.blue}[${this.prefix}]${this.colors.reset}`
-      const level = `${this.colors.gray}[DEBUG]${this.colors.reset}`
-      console.log(`${timestamp} ${prefix} ${level} ${msg}`)
+  log ({ type, msg }) {
+    if (!this.enabled || type < this.minLevel) return
+    let levelStr, color, consoleMethod
+    switch (type) {
+      case this.LOG_LEVELS.DEBUG:
+        levelStr = 'DEBUG'
+        color = this.colors.gray
+        consoleMethod = console.log
+        break
+      case this.LOG_LEVELS.INFO:
+        levelStr = 'INFO'
+        color = this.colors.green
+        consoleMethod = console.log
+        break
+      case this.LOG_LEVELS.WARN:
+        levelStr = 'WARN'
+        color = this.colors.yellow
+        consoleMethod = console.warn
+        break
+      case this.LOG_LEVELS.ERROR:
+        levelStr = 'ERROR'
+        color = this.colors.red
+        consoleMethod = console.error
+        break
+      default:
+        return
     }
-  }
-
-  log (msg) {
-    if (this.enabled && this.LOG_LEVELS.INFO >= this.minLevel) {
-      const timestamp = `${this.colors.gray}${new Date().toISOString()}${this.colors.reset}`
-      const prefix = `${this.colors.blue}[${this.prefix}]${this.colors.reset}`
-      const level = `${this.colors.green}[INFO]${this.colors.reset}`
-      console.log(`${timestamp} ${prefix} ${level} ${msg}`)
-    }
-  }
-
-  warn (msg) {
-    if (this.enabled && this.LOG_LEVELS.WARN >= this.minLevel) {
-      const timestamp = `${this.colors.gray}${new Date().toISOString()}${this.colors.reset}`
-      const prefix = `${this.colors.blue}[${this.prefix}]${this.colors.reset}`
-      const level = `${this.colors.yellow}[WARN]${this.colors.reset}`
-      console.warn(`${timestamp} ${prefix} ${level} ${msg}`)
-    }
-  }
-
-  error (msg) {
-    if (this.enabled && this.LOG_LEVELS.ERROR >= this.minLevel) {
-      const timestamp = `${this.colors.gray}${new Date().toISOString()}${this.colors.reset}`
-      const prefix = `${this.colors.blue}[${this.prefix}]${this.colors.reset}`
-      const level = `${this.colors.red}[ERROR]${this.colors.reset}`
-      console.error(`${timestamp} ${prefix} ${level} ${msg}`)
-    }
+    const timestamp = `${this.colors.gray}${new Date().toISOString()}${this.colors.reset}`
+    const prefix = `${this.colors.blue}[${this.prefix}]${this.colors.reset}`
+    const level = `${color}[${levelStr}]${this.colors.reset}`
+    consoleMethod(`${timestamp} ${prefix} ${level} ${msg}`)
   }
 }
 
