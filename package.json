@@ -1,6 +1,6 @@
 {
   "name": "holesail-logger",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Advanced logger for Holesail ecosystem",
   "main": "index.js",
   "scripts": {
