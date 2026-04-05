@@ -21,6 +21,23 @@ const HolesailLogger = require('holesail-logger');
 
 const logger = new HolesailLogger({ enabled: true });
 
+logger.debug('This is a debug message.');
+logger.info('This is an info message.');
+logger.warn('This is a warning message.');
+logger.error('This is an error message.');
+```
+
+Optional: pass multiple values like `console` (uses Node’s `util.format`):
+
+```javascript
+logger.info('User %s logged in', userId);
+```
+
+### Legacy API
+
+You can still use explicit level numbers with `log`:
+
+```javascript
 logger.log({ type: 0, msg: 'This is a debug message.' });
 logger.log({ type: 1, msg: 'This is an info message.' });
 logger.log({ type: 2, msg: 'This is a warning message.' });
@@ -64,7 +81,8 @@ Logs with a type below the `minLevel` will be ignored.
 
 ## Methods
 
-- `log({ type, msg })`: Logs a message at the specified level. The `type` must be one of the `LOG_LEVELS` values. This method checks the `enabled` flag and `minLevel` before outputting anything.
+- `debug(...)`, `info(...)`, `warn(...)`, `error(...)`: Log at the matching level. Arguments are formatted with Node’s `util.format` (same idea as `console.log`).
+- `log({ type, msg })`: Logs a message at the specified level. The `type` must be one of the `LOG_LEVELS` values. All methods respect `enabled` and `minLevel`.
 
 ## Requirements
 

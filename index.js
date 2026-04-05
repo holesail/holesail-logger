@@ -1,4 +1,5 @@
 const colors = require('barely-colours')
+const util = require('util')
 
 class HolesailLogger {
   constructor ({ prefix = 'Holesail', enabled = false, level = 1 } = {}) {
@@ -13,7 +14,7 @@ class HolesailLogger {
     }
   }
 
-  log ({ type, msg }) {
+  _emit (type, msg) {
     if (!this.enabled || type < this.minLevel) return
     let levelStr, colorFunc, consoleMethod
     switch (type) {
@@ -44,6 +45,26 @@ class HolesailLogger {
     const prefix = colors.blue(`[${this.prefix}]`)
     const level = colorFunc(`[${levelStr}]`)
     consoleMethod(`${timestamp} ${prefix} ${level} ${msg}`)
+  }
+
+  log ({ type, msg }) {
+    this._emit(type, msg)
+  }
+
+  debug (...args) {
+    this._emit(this.LOG_LEVELS.DEBUG, util.format(...args))
+  }
+
+  info (...args) {
+    this._emit(this.LOG_LEVELS.INFO, util.format(...args))
+  }
+
+  warn (...args) {
+    this._emit(this.LOG_LEVELS.WARN, util.format(...args))
+  }
+
+  error (...args) {
+    this._emit(this.LOG_LEVELS.ERROR, util.format(...args))
   }
 }
 
