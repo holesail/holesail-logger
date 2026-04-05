@@ -89,9 +89,25 @@ Logs with a type below the `minLevel` will be ignored.
 - Node.js >= 14 (uses ANSI escape codes for colors, which are supported in most terminals).
 - Depends on `barely-colours` for color formatting.
 
+## Testing
+
+After `npm install`, run:
+
+```bash
+npm test
+```
+
+Tests use [brittle](https://www.npmjs.com/package/brittle) (TAP) and live in `tests/*.mjs`.
+
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request on [GitHub](https://github.com/holesail/holesail-logger).
+
+Optional: use the repo’s git hooks so unwanted automated lines are stripped from commit messages:
+
+```bash
+git config core.hooksPath .githooks
+```
 
 ## Contact
 
