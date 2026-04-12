@@ -1,41 +1,49 @@
 const colors = require('barely-colours')
 const util = require('util')
+const LEVELS = {
+  DEBUG: 0,
+  INFO: 1,
+  WARN: 2,
+  ERROR: 3
+}
 
 class HolesailLogger {
-  constructor ({ prefix = 'Holesail', enabled = false, level = 1 } = {}) {
+  constructor({ prefix = 'LOG', level = 1 } = {}) {
     this.prefix = prefix
-    this.enabled = enabled
-    this.minLevel = level
-    this.LOG_LEVELS = {
-      DEBUG: 0,
-      INFO: 1,
-      WARN: 2,
-      ERROR: 3
-    }
+    this.level = level
+    this._enabled = true
   }
 
-  _emit (type, msg) {
-    if (!this.enabled || type < this.minLevel) return
-    let levelStr, colorFunc, consoleMethod
+  get enabled() {
+    return this._enabled
+  }
+
+  set enabled(bool) {
+    this._enabled = bool
+  }
+
+  _emit(type, msg) {
+    if (!this._enabled || type < this.level) return
+    let string, color, consoleMethod
     switch (type) {
-      case this.LOG_LEVELS.DEBUG:
-        levelStr = 'DEBUG'
-        colorFunc = colors.brightBlack
+      case LEVELS.DEBUG:
+        string = 'DEBUG'
+        color = colors.brightBlack
         consoleMethod = console.log
         break
-      case this.LOG_LEVELS.INFO:
-        levelStr = 'INFO'
-        colorFunc = colors.green
+      case LEVELS.INFO:
+        string = 'INFO'
+        color = colors.green
         consoleMethod = console.log
         break
-      case this.LOG_LEVELS.WARN:
-        levelStr = 'WARN'
-        colorFunc = colors.yellow
+      case LEVELS.WARN:
+        string = 'WARN'
+        color = colors.yellow
         consoleMethod = console.warn
         break
-      case this.LOG_LEVELS.ERROR:
-        levelStr = 'ERROR'
-        colorFunc = colors.red
+      case LEVELS.ERROR:
+        string = 'ERROR'
+        color = colors.red
         consoleMethod = console.error
         break
       default:
@@ -43,28 +51,24 @@ class HolesailLogger {
     }
     const timestamp = colors.brightBlack(new Date().toISOString())
     const prefix = colors.blue(`[${this.prefix}]`)
-    const level = colorFunc(`[${levelStr}]`)
+    const level = color(`[${string}]`)
     consoleMethod(`${timestamp} ${prefix} ${level} ${msg}`)
   }
 
-  log ({ type, msg }) {
-    this._emit(type, msg)
+  debug(...args) {
+    this._emit(LEVELS.DEBUG, util.format(...args))
   }
 
-  debug (...args) {
-    this._emit(this.LOG_LEVELS.DEBUG, util.format(...args))
+  info(...args) {
+    this._emit(LEVELS.INFO, util.format(...args))
   }
 
-  info (...args) {
-    this._emit(this.LOG_LEVELS.INFO, util.format(...args))
+  warn(...args) {
+    this._emit(LEVELS.WARN, util.format(...args))
   }
 
-  warn (...args) {
-    this._emit(this.LOG_LEVELS.WARN, util.format(...args))
-  }
-
-  error (...args) {
-    this._emit(this.LOG_LEVELS.ERROR, util.format(...args))
+  error(...args) {
+    this._emit(LEVELS.ERROR, util.format(...args))
   }
 }
 
