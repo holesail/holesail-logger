@@ -4,18 +4,23 @@
   "description": "Advanced logger for Holesail ecosystem",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run lint && node test.js && bare test.js",
+    "lint": "prettier . --check",
+    "format": "prettier . --write"
   },
   "keywords": [
     "logger",
     "holesail"
   ],
   "author": "Raven Scott",
-  "license": "GPL 3.0",
+  "license": "AGPL-3.0",
   "devDependencies": {
-    "standard": "^17.1.2"
+    "brittle": "^3.19.1",
+    "prettier": "^3.8.2",
+    "prettier-config-holepunch": "^2.0.0"
   },
   "dependencies": {
-    "barely-colours": "^1.0.0"
+    "barely-colours": "^1.0.0",
+    "util": "npm:bare-utils@^1.6.0"
   }
 }
